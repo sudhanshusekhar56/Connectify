@@ -1,12 +1,11 @@
-//Global state just like Recoil.
-import { create } from "zustand";
+import Message from "../components/messages/Message";
 
-const useConversation = create((set) => ({
-  selectedConversation: null,
-  setSelectedConversation: (selectedConversation) =>
-    set({ selectedConversation }),
-  messages: [],
-  setMessages: (messages) => set({ messages }),
-}));
+import{create} from "zustand";
+const useConversation=create((set)=>({
+    setselectedConversation:null,
+    setselectedConversation:(selectedConversation)=>set({selectedConversation}),
+    messages:[],
+    setMessages:(messages)=>set({messages}),
 
+}))
 export default useConversation;
