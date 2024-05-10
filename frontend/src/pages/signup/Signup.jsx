@@ -21,6 +21,13 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(inputs);
+    setInputs({
+      fullName: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+      gender: "",
+    });
   };
 
   return (
@@ -37,7 +44,7 @@ const SignUp = () => {
             </label>
             <input
               type="text"
-              placeholder="jay"
+              placeholder="Enter Fullname"
               className="w-full input input-bordered  h-10"
               value={inputs.fullName}
               onChange={(e) =>
@@ -52,7 +59,7 @@ const SignUp = () => {
             </label>
             <input
               type="text"
-              placeholder="jaykumar"
+              placeholder="Enter Username"
               className="w-full input input-bordered h-10"
               value={inputs.username}
               onChange={(e) =>
@@ -73,6 +80,7 @@ const SignUp = () => {
               onChange={(e) =>
                 setInputs({ ...inputs, password: e.target.value })
               }
+              autoComplete="off"
             />
           </div>
 
