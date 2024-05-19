@@ -1,8 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import { useAuthContext } from "./AuthContext";
 import io from "socket.io-client";
 
-export const SocketContext = createContext();
+const SocketContext = createContext();
+
+export const useSocketContext = () => {
+  return useContext(SocketContext);
+};
 
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
@@ -11,14 +15,23 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:5000", {
+      const newSocket = io("http://localhost:5000", {
         query: {
-          userId: authUser._id,
+          userId: authUser?.user?._id,
         },
       });
-      setSocket(socket);
-      return () => socket.close();
+      setSocket(newSocket);
+
+      newSocket.on("getOnlineUsers", (users) => {
+        setOnlineUsers(users);
+      });
+
+      // Cleanup when the component unmounts or authUser changes
+      return () => {
+        newSocket.close();
+      };
     } else {
+      // Cleanup if authUser becomes null
       if (socket) {
         socket.close();
         setSocket(null);
