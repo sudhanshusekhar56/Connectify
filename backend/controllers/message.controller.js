@@ -2,6 +2,8 @@ import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 import { getReceiverSocketId } from "../socket/socket.js";
 import { io } from "../socket/socket.js";
+import User from "../models/user.model.js";
+import mongoose from "mongoose";
 
 export const sendMessage = async (req, res) => {
   try {

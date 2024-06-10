@@ -1,5 +1,6 @@
 import GenderCheckbox from "./GenderCheckbox";
 import useSignup from "../../hooks/useSignup";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -13,6 +14,7 @@ const SignUp = () => {
   });
 
   const { loading, signup } = useSignup();
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (gender) => {
     setInputs({ ...inputs, gender });
@@ -20,7 +22,10 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup(inputs);
+    const success = await signup(inputs);
+    if (success.message == "User created successfully") {
+      navigate("/verify");
+    }
     setInputs({
       fullName: "",
       username: "",
@@ -55,7 +60,7 @@ const SignUp = () => {
 
           <div>
             <label className="label p-2 ">
-              <span className="text-base label-text">Username</span>
+              <span className="text-base label-text">Email</span>
             </label>
             <input
               type="text"
